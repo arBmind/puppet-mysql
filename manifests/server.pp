@@ -11,7 +11,7 @@ Parameters:
    creates a special user used by the init scripts.
 
 */
-class mysql::server {
+class mysql::server( $mysql_password = undef ) {
 
   include mysql::params
 
@@ -49,10 +49,15 @@ class mysql::server {
     seltype => "mysqld_etc_t",
     require => Package["mysql-server"],
   }
-
+  
+  file { "/usr/share/augeas/lenses/contrib" :
+	ensure => directory,
+  }
+  
   file { "/usr/share/augeas/lenses/contrib/mysql.aug":
     ensure => present,
     source => "puppet:///modules/mysql/mysql.aug",
+	require => File[ "/usr/share/augeas/lenses/contrib" ],
   }
 
   augeas { "my.cnf/mysqld":
