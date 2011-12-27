@@ -6,7 +6,7 @@ Puppet::Type.newtype(:mysql_grant) do
 	autorequire :mysql_db do
 		# puts "Starting db autoreq for %s" % self[:name]
 		reqs = []
-		matches = self[:name].match(/^([^@]+)@([^\/]+)\/(.+)$/)
+		matches = self[:name].match(/^([^@]+)@([^\/]+)\/([^\.]+).*$/)
 		unless matches.nil?
 			reqs << matches[3]
 		end
